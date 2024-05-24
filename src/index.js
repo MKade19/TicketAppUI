@@ -8,11 +8,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './Context/AuthContext';
+import InjectAxiosInterceptors from './axios/InjectAxiosInterceptors'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <BrowserRouter>
+            <InjectAxiosInterceptors/>
             <AuthProvider>
                 <App />
             </AuthProvider>
