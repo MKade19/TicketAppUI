@@ -19,6 +19,9 @@ const NavigationBar = () => {
                         <LinkContainer to={"/"}>
                             <NavLink>Home</NavLink>
                         </LinkContainer>
+                        <LinkContainer to={"/profile"}>
+                            <NavLink>Profile</NavLink>
+                        </LinkContainer>
                     </Nav>
                     <Navbar>{!user() ? '' : user().fullname + ' - ' + (!user().role ? '' : user().role.name)}&nbsp;&nbsp;&nbsp;
                     { !user ? null : <NavLink onClick={handleLogout}>Log out</NavLink> }</Navbar>

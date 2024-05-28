@@ -1,6 +1,7 @@
 import axios from "axios";
+import DialogMesages from '../Util/DialogMessages';
 
-const BASE_URL = 'http://127.0.0.1:8000/';
+const BASE_URL = 'http://127.0.0.1:8000/ticket-app/api/';
 
 const instance = axios.create({
     baseURL: BASE_URL,
@@ -27,15 +28,17 @@ export const setupInterceptors = navigate => {
             try {
                 const tokens = JSON.parse(localStorage.getItem('authTokens'));
     
-                const response = await axios.post(BASE_URL + 'token/refresh/', tokens);
+                const response = await axios.post(BASE_URL + 'auth/token/refresh/', tokens);
                 localStorage.setItem('authTokens', JSON.stringify(response.data));
     
                 return instance.request(originalRequest);
             } catch (e) {
-                console.log('You are not authorized!');
+                // console.log('You are not authorized!');
+                DialogMesages.errorMessage('You are not authorized!');
                 localStorage.removeItem('authTokens');
                 localStorage.removeItem('user');
                 navigate('auth/sign-in');
+                return Promise.resolve();
             }
         }
     
