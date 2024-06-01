@@ -10,8 +10,11 @@ const instance = axios.create({
 
 export const setupInterceptors = navigate => {
     instance.interceptors.request.use(request => {
-        const accessToken = JSON.parse(localStorage.getItem('authTokens')).access;
-        request.headers.setAuthorization(`Bearer ${accessToken}`);
+        const accessToken = JSON.parse(localStorage.getItem('authTokens'));
+        if (accessToken) {
+            request.headers.setAuthorization(`Bearer ${accessToken.access}`);
+        }
+        
         return request;
     }, error => {
         console.log(error);
@@ -29,11 +32,12 @@ export const setupInterceptors = navigate => {
                 const tokens = JSON.parse(localStorage.getItem('authTokens'));
     
                 const response = await axios.post(BASE_URL + 'auth/token/refresh/', tokens);
+                console.log(response);
                 localStorage.setItem('authTokens', JSON.stringify(response.data));
     
                 return instance.request(originalRequest);
             } catch (e) {
-                // console.log('You are not authorized!');
+                console.log('You are not authorized!');
                 DialogMesages.errorMessage('You are not authorized!');
                 localStorage.removeItem('authTokens');
                 localStorage.removeItem('user');

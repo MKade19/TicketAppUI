@@ -1,18 +1,18 @@
 import Table from 'react-bootstrap/Table';
-import EventService from '../Services/EventService';
+import ApplicationService from '../Services/ApplicationService';
 import DialogMessages from '../Util/DialogMessages';
 // import { useContext } from 'react';
 // import AuthContext from '../Context/AuthContext';
 
-const EventsTable = ({ handleOpenForm, handleOpenApplicationsView, events, fetchData }) => {
+const ApplicationsTable = ({ handleOpenForm, applications, fetchData }) => {
     // const { user } = useContext(AuthContext);
 
     const deleteHandler = async (id, event) => {
-        DialogMessages.confirmMessage('Are you sure, to delete the event?')
+        DialogMessages.confirmMessage('Are you sure, to delete the application?')
         .then(async (result) => {
             if (result.isConfirmed) {
-                DialogMessages.successMessage("Event has been deleted");
-                await EventService.deleteById(id);
+                DialogMessages.successMessage("Application has been deleted");
+                await ApplicationService.deleteById(id);
                 await fetchData();
             } else if (result.isDenied) {
                 return;
@@ -21,30 +21,26 @@ const EventsTable = ({ handleOpenForm, handleOpenApplicationsView, events, fetch
     }
 
     const addRows = () => {
-        return events.map(e => createRow(e));
+        return applications.map(e => createRow(e));
     }
  
-    const createRow = event => {
+    const createRow = application => {
         return (
-            <tr key={event.id}>
-                <td>{event.name}</td>
-                {/* <td>{new Date(event.date).toLocaleDateString()}</td> */}
-                <td>{event.price}</td>
-                <td>
-                    <button className='btn btn-outline-primary' onClick={ e => { handleOpenApplicationsView(event.id, e) } }>
-                        <i className="bi bi-chevron-expand"></i>
-                    </button> 
-                </td>
+            <tr key={application.id}>
+                <td>{new Date(application.date).toLocaleDateString()}</td>
+                <td>{application.start}</td>
+                <td>{application.end}</td>
+                <td>{application.status}</td>
                 <td>
                 {/* {user().userRole.permission_appointment === 'editable' ?  */}
-                    <button className='btn btn-outline-primary' onClick={ e => { handleOpenForm(event.id, e) } }>
+                    <button className='btn btn-outline-primary' onClick={ e => { handleOpenForm(application.id, e) } }>
                         <i className="bi bi-pen"></i>
                     </button> 
                     {/* : null} */}
                 </td>
                 <td>
                 {/* {user().userRole.permission_appointment === 'editable' ?  */}
-                    <button className='btn btn-outline-danger' onClick={ e => { deleteHandler(event.id, e) } }>
+                    <button className='btn btn-outline-danger' onClick={ e => { deleteHandler(application.id, e) } }>
                         <i className="bi bi-trash"></i>
                     </button> 
                     {/* : null}    */}
@@ -58,9 +54,10 @@ const EventsTable = ({ handleOpenForm, handleOpenApplicationsView, events, fetch
             <Table hover striped bordered>
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>View applications</th>
+                        <th>Date</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>Status</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -73,4 +70,4 @@ const EventsTable = ({ handleOpenForm, handleOpenApplicationsView, events, fetch
     )
 }
 
-export default EventsTable;
+export default ApplicationsTable;

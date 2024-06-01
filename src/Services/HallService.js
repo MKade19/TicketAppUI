@@ -9,6 +9,10 @@ class HallService {
         return await axios.get(`halls/${id}/`);
     }
 
+    getByStadium = async stadiumId => {
+        return await axios.get(`halls/stadium/?id=${stadiumId}`);
+    }
+
     createOne = async ({ name, stadium }) => {
         const body = { name, stadium };
         return await axios.post('halls/', body);

@@ -3,11 +3,13 @@ import EventService from "../Services/EventService";
 import EventEditModal from "../Modals/EventEditModal";
 import EventsTable from "../Tables/EventsTable";
 import AuthContext from '../Context/AuthContext';
+import ApplicationsViewModal from "../Modals/ApplicationsViewModal";
 
 const ProfilePage = () => {
     const { user } = useContext(AuthContext);
 
     const [editFormOpened, setEditFormOpened] = useState(false);
+    const [applicationsViewOpened, setApplicationsViewOpened] = useState(false);
     const [eventId, setEventId] = useState(null);
     const [events, setEvents] = useState([]);
 
@@ -15,11 +17,20 @@ const ProfilePage = () => {
         setEventId(id);
         setEditFormOpened(true);
     }
-
+    
     const handleCloseForm = event => {
         setEditFormOpened(false);
     }
 
+    const handleOpenApplicationsView = (id, event) => {
+        setEventId(id);
+        setApplicationsViewOpened(true);
+    }
+
+    const handleCloseApplicationsView = event => {
+        setApplicationsViewOpened(false);
+    }
+    
     const fetchData = async () => {
         const eventsData = await EventService.getByAdmin(user().id);
         setEvents(eventsData.data);   
@@ -43,12 +54,18 @@ const ProfilePage = () => {
                 events={ events }
                 handleOpenForm={ handleOpenForm } 
                 fetchData={ fetchData }
+                handleOpenApplicationsView={ handleOpenApplicationsView }
             />
             <EventEditModal 
                 eventId={ eventId }
                 showModal={ editFormOpened } 
                 handleClose={ handleCloseForm }
                 fetchData={ fetchData }
+            />
+            <ApplicationsViewModal
+                eventId={ eventId }
+                showModal={ applicationsViewOpened } 
+                handleClose={ handleCloseApplicationsView }
             />
         </>
     );

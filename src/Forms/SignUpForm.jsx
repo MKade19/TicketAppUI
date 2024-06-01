@@ -80,7 +80,7 @@ const SignUpForm = () => {
                                 placeholder="Choose role">
                                 {addRolesOptions()}
                             </select>
-                            { activeRole.id === 1 ? null : 
+                            { !activeRole ? '' : activeRole.id === 2 ? null : 
                                 <p className="text-danger mt-2">
                                     Warning! Role that you have selected<br/>
                                     requires the approval of administrator.
