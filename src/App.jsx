@@ -9,6 +9,7 @@ import AuthLayout from './Layout/AuthLayout';
 import SignInPage from './Pages/SignInPage';
 import ChangePasswordPage from './Pages/ChangePasswordPage';
 import SignUpPage from './Pages/SignUpPage';
+import ProfilePage from './Pages/ProfilePage';
 
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
             <Routes>
                 <Route path='/' element={ user() ? <Layout/> : <Navigate to={'/auth/sign-in'}/> }>
                     <Route index element={ <HomePage/> }/>
+                    <Route path='profile' element={ <ProfilePage/> }/>
                 </Route>
                 <Route path='auth' element={ <AuthLayout/> }>
                     <Route path='sign-in' element={ <SignInPage/> }/>
