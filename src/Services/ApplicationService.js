@@ -13,13 +13,13 @@ class ApplicationService {
         return await axios.get(`applications/event/?id=${eventId}`);
     }
 
-    createOne = async ({ date, start, end, event }) => {
-        const body = { date, start, end, event };
+    createOne = async ({ date, start, end, event, seats }) => {
+        const body = { date, start, end, event, seats };
         return await axios.post('applications/', body);
     }
 
-    updateOne = async ({ id, date, start, end, event }) => {
-        const body = { date, start, end, event };
+    updateOne = async ({ id, date, start, end, event, seats }) => {
+        const body = { date, start, end, event, seats };
         return await axios.put(`applications/${id}/`, body);
     }
 

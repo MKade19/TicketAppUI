@@ -3,7 +3,7 @@ import DialogMessages from "../Util/DialogMessages";
 import ApplicationService from "../Services/ApplicationService";
 import StadiumService from "../Services/StadiumService";
 import HallService from "../Services/HallService";
-import AuthContext from '../Context/AuthContext';
+import SeatsSelectionModal from "../Modals/SeatsSelectionModal";
 
 const ApplicationEditForm = ({ applicationId, eventId, handleClose, fetchData }) => {
     const [date, setDate] = useState('');
@@ -13,7 +13,22 @@ const ApplicationEditForm = ({ applicationId, eventId, handleClose, fetchData })
     const [activeStadium, setActiveStadium] = useState({});
     const [halls, setHalls] = useState([]);
     const [activeHall, setActiveHall] = useState({});
-    const { user } = useContext(AuthContext);
+    const [seats, setSeats] = useState([]);
+
+    const [selectionFormOpened, setSelectionFormOpened] = useState(false);
+
+    const handleOpenSeatSelection = event => {
+        if (!activeHall) {
+            DialogMessages.errorMessage('Hall is not seleted!');
+            return;
+        }
+
+        setSelectionFormOpened(true);
+    }
+    
+    const handleCloseSeatSelection = event => {
+        setSelectionFormOpened(false);
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -23,9 +38,12 @@ const ApplicationEditForm = ({ applicationId, eventId, handleClose, fetchData })
 
             if (applicationId) {
                 const applicationResponse = await ApplicationService.getById(applicationId);
+                console.log(applicationResponse.data);
                 setDate(applicationResponse.data.date.split('T')[0]);
                 setStart(applicationResponse.data.start);
                 setEnd(applicationResponse.data.end);
+                setSeats(applicationResponse.data.seats);
+
             }
         } 
 
@@ -72,6 +90,10 @@ const ApplicationEditForm = ({ applicationId, eventId, handleClose, fetchData })
         return halls.map(e => <option key={e.id}>{e.name}</option>);
     }
 
+    const submitSelection = selectedSeats => {
+        setSeats(selectedSeats);
+    }
+
     const handleSubmit = async event => {
         event.preventDefault();
         let response;
@@ -83,12 +105,19 @@ const ApplicationEditForm = ({ applicationId, eventId, handleClose, fetchData })
                     date, 
                     start, 
                     end, 
-                    event: eventId
+                    event: eventId,
+                    seats: seats.map(el => el.id)
                 } );
                 DialogMessages.successMessage("Application has been updated");
             }
             else {
-                response = await ApplicationService.createOne({ date, start, end, event: eventId });
+                response = await ApplicationService.createOne({ 
+                    date, 
+                    start, 
+                    end, 
+                    event: eventId, 
+                    seats: seats.map(el => el.id)
+                });
                 DialogMessages.successMessage("Application has been created");
             }
 
@@ -137,8 +166,9 @@ const ApplicationEditForm = ({ applicationId, eventId, handleClose, fetchData })
                             </select>
                         </div>
                         : null}  
-                    <div className="d-flex justify-content-center">
-                        <button type="button" className="btn btn-outline-primary mt-4">
+                    <div className="d-flex justify-content-center align-items-center mt-4">
+                        Seats selected { seats.length }
+                        <button onClick={ handleOpenSeatSelection } type="button" className="btn btn-outline-primary mx-3">
                             <i className="bi bi-chevron-expand"></i> Choose seats
                         </button>
                     </div>
@@ -147,6 +177,12 @@ const ApplicationEditForm = ({ applicationId, eventId, handleClose, fetchData })
                     </div>
                 </div>
             </form>
+            <SeatsSelectionModal hallId={ activeHall.id }
+                handleClose={ handleCloseSeatSelection }
+                showModal={ selectionFormOpened }
+                submitSelection={ submitSelection }
+                initialSeats={ seats }
+            />
         </div>
     )
 }

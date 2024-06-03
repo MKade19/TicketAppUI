@@ -32,7 +32,7 @@ export const setupInterceptors = navigate => {
                 const tokens = JSON.parse(localStorage.getItem('authTokens'));
     
                 const response = await axios.post(BASE_URL + 'auth/token/refresh/', tokens);
-                console.log(response);
+                // console.log(response);
                 localStorage.setItem('authTokens', JSON.stringify(response.data));
     
                 return instance.request(originalRequest);
