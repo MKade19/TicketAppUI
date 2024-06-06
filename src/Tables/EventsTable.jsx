@@ -28,7 +28,9 @@ const EventsTable = ({ handleOpenForm, handleOpenApplicationsView, events, fetch
         return (
             <tr key={event.id}>
                 <td>{event.name}</td>
-                {/* <td>{new Date(event.date).toLocaleDateString()}</td> */}
+                <td>{new Date(event.date).toLocaleDateString()}</td>
+                <td>{event.start}</td>
+                <td>{event.end}</td>
                 <td>{event.price}</td>
                 <td>
                     <button className='btn btn-outline-primary' onClick={ e => { handleOpenApplicationsView(event.id, e) } }>
@@ -59,6 +61,9 @@ const EventsTable = ({ handleOpenForm, handleOpenApplicationsView, events, fetch
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Date</th>
+                        <th>Start</th>
+                        <th>End</th>
                         <th>Price</th>
                         <th>View applications</th>
                         <th>Edit</th>

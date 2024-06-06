@@ -1,11 +1,11 @@
 import Table from 'react-bootstrap/Table';
 import ApplicationService from '../Services/ApplicationService';
 import DialogMessages from '../Util/DialogMessages';
-// import { useContext } from 'react';
-// import AuthContext from '../Context/AuthContext';
+import { useContext } from 'react';
+import AuthContext from '../Context/AuthContext';
 
 const ApplicationsTable = ({ handleOpenForm, applications, fetchData }) => {
-    // const { user } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
     const deleteHandler = async (id, event) => {
         DialogMessages.confirmMessage('Are you sure, to delete the application?')
@@ -20,6 +20,32 @@ const ApplicationsTable = ({ handleOpenForm, applications, fetchData }) => {
         })
     }
 
+    const approveHandler = async (id, event) => {
+        DialogMessages.confirmMessage('Are you sure, to approve the application?')
+        .then(async (result) => {
+            if (result.isConfirmed) {
+                DialogMessages.successMessage("Application has been approved");
+                await ApplicationService.changeStatus({ id, status: 'approved'});
+                await fetchData();
+            } else if (result.isDenied) {
+                return;
+            }
+        })
+    }
+
+    const denyHandler = async (id, event) => {
+        DialogMessages.confirmMessage('Are you sure, to deny the application?')
+        .then(async (result) => {
+            if (result.isConfirmed) {
+                DialogMessages.successMessage("Application has been denied");
+                await ApplicationService.changeStatus({ id, status: 'denied'});
+                await fetchData();
+            } else if (result.isDenied) {
+                return;
+            }
+        })
+    }
+
     const addRows = () => {
         return applications.map(e => createRow(e));
     }
@@ -27,24 +53,36 @@ const ApplicationsTable = ({ handleOpenForm, applications, fetchData }) => {
     const createRow = application => {
         return (
             <tr key={application.id}>
-                <td>{new Date(application.date).toLocaleDateString()}</td>
-                <td>{application.start}</td>
-                <td>{application.end}</td>
                 <td>{application.status}</td>
                 <td>
-                {/* {user().userRole.permission_appointment === 'editable' ?  */}
                     <button className='btn btn-outline-primary' onClick={ e => { handleOpenForm(application.id, e) } }>
-                        <i className="bi bi-pen"></i>
+                        { user().role.permission_application === 'editable' ? 
+                            <i className="bi bi-pen"></i> : 
+                            <i className="bi bi-chevron-expand"></i> }
                     </button> 
-                    {/* : null} */}
                 </td>
+                
+                { user().role.permission_application_status === 'editable' ? 
                 <td>
-                {/* {user().userRole.permission_appointment === 'editable' ?  */}
+                    <button className='btn btn-outline-success' onClick={ e => { approveHandler(application.id, e) } }>
+                        <i className="bi bi-check2"></i>
+                    </button> 
+                </td>
+                 : null }   
+                { user().role.permission_application_status === 'editable' ? 
+                <td>
+                    <button className='btn btn-outline-danger' onClick={ e => { denyHandler(application.id, e) } }>
+                        <i className="bi bi-x-lg"></i>
+                    </button> 
+                </td>
+                 : null }  
+                { user().role.permission_application === 'editable' ? 
+                <td>
                     <button className='btn btn-outline-danger' onClick={ e => { deleteHandler(application.id, e) } }>
                         <i className="bi bi-trash"></i>
                     </button> 
-                    {/* : null}    */}
                 </td>
+                 : null }    
             </tr>
         )
     }
@@ -54,12 +92,19 @@ const ApplicationsTable = ({ handleOpenForm, applications, fetchData }) => {
             <Table hover striped bordered>
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Start</th>
-                        <th>End</th>
                         <th>Status</th>
-                        <th>Edit</th>
+                        <th>
+                            { user().role.permission_application === 'editable' ? 'Edit' : 'View seats' }
+                        </th>
+                        { user().role.permission_application_status === 'editable' ? 
+                        <th>Approve</th>
+                        : null }
+                        { user().role.permission_application_status === 'editable' ? 
+                        <th>Deny</th>
+                        : null }
+                        { user().role.permission_application === 'editable' ? 
                         <th>Delete</th>
+                        : null }
                     </tr>
                 </thead>
                 <tbody>
