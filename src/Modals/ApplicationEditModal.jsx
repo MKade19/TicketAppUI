@@ -1,12 +1,8 @@
 import { Modal } from "react-bootstrap";
 import ApplicationEditForm from "../Forms/ApplicationEditForm";
-import AuthContext from '../Context/AuthContext';
-import { useContext } from "react";
 
 
 const ApplicationEditModal = ({ applicationId, eventId, showModal, handleClose, fetchData }) => {
-    const { user } = useContext(AuthContext);
-
     return (
         <Modal show={showModal}
             onHide={handleClose}
@@ -15,7 +11,7 @@ const ApplicationEditModal = ({ applicationId, eventId, showModal, handleClose, 
             centered>
             <Modal.Header>
                 <Modal.Title>
-                    { user().role.permission_application === 'editable' ? applicationId ? 'Edit ' : 'Create ' : 'View ' }
+                    { applicationId ? 'Edit ' : 'Create ' }
                     application
                 </Modal.Title>
             </Modal.Header>

@@ -1,12 +1,8 @@
 import Table from 'react-bootstrap/Table';
 import EventService from '../Services/EventService';
 import DialogMessages from '../Util/DialogMessages';
-// import { useContext } from 'react';
-// import AuthContext from '../Context/AuthContext';
 
 const EventsTable = ({ handleOpenForm, handleOpenApplicationsView, events, fetchData }) => {
-    // const { user } = useContext(AuthContext);
-
     const deleteHandler = async (id, event) => {
         DialogMessages.confirmMessage('Are you sure, to delete the event?')
         .then(async (result) => {
@@ -32,24 +28,21 @@ const EventsTable = ({ handleOpenForm, handleOpenApplicationsView, events, fetch
                 <td>{event.start}</td>
                 <td>{event.end}</td>
                 <td>{event.price}</td>
+                <td>{event.hall.name}</td>
                 <td>
                     <button className='btn btn-outline-primary' onClick={ e => { handleOpenApplicationsView(event.id, e) } }>
                         <i className="bi bi-chevron-expand"></i>
                     </button> 
                 </td>
                 <td>
-                {/* {user().userRole.permission_appointment === 'editable' ?  */}
                     <button className='btn btn-outline-primary' onClick={ e => { handleOpenForm(event.id, e) } }>
                         <i className="bi bi-pen"></i>
                     </button> 
-                    {/* : null} */}
                 </td>
                 <td>
-                {/* {user().userRole.permission_appointment === 'editable' ?  */}
                     <button className='btn btn-outline-danger' onClick={ e => { deleteHandler(event.id, e) } }>
                         <i className="bi bi-trash"></i>
                     </button> 
-                    {/* : null}    */}
                 </td>
             </tr>
         )
@@ -65,6 +58,7 @@ const EventsTable = ({ handleOpenForm, handleOpenApplicationsView, events, fetch
                         <th>Start</th>
                         <th>End</th>
                         <th>Price</th>
+                        <th>Hall</th>
                         <th>View applications</th>
                         <th>Edit</th>
                         <th>Delete</th>

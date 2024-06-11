@@ -1,14 +1,14 @@
 import { useState, useEffect, useContext } from "react";
 import StadiumService from "../Services/StadiumService";
 import ApplicationsTable from "../Tables/ApplicationsTable";
-import ApplicationEditModal from "../Modals/ApplicationEditModal";
 import AuthContext from '../Context/AuthContext';
+import SeatsViewModal from "../Modals/SeatsViewModal";
 
 const StadiumAdminProfile = () => {
     const { user } = useContext(AuthContext);
 
     const [applications, setApplications] = useState([]);
-    const [editFormOpened, setEditFormOpened] = useState(false);
+    const [seatsViewOpened, setSeatsViewOpened] = useState(false);
     const [applicationId, setApplicationId] = useState(null);
 
     const fetchData = async () => {
@@ -20,13 +20,13 @@ const StadiumAdminProfile = () => {
         fetchData().catch(console.error);
     }, []);
 
-    const handleOpenForm = (id, event) => {
+    const handleOpenModal = (id, event) => {
         setApplicationId(id);
-        setEditFormOpened(true);
+        setSeatsViewOpened(true);
     }
     
-    const handleCloseForm = event => {
-        setEditFormOpened(false);
+    const handleCloseModal = event => {
+        setSeatsViewOpened(false);
     }
 
     return (
@@ -34,12 +34,12 @@ const StadiumAdminProfile = () => {
             <h3 className="mb-4">Applications</h3>
             <ApplicationsTable fetchData={ fetchData }
                 applications={ applications }
-                handleOpenForm={ handleOpenForm }
+                handleOpenForm={ handleOpenModal }
             />
-            <ApplicationEditModal applicationId={ applicationId }
-                fetchData={ fetchData }
-                handleClose={ handleCloseForm }
-                showModal={ editFormOpened }
+            <SeatsViewModal
+                applicationId={ applicationId }
+                showModal={ seatsViewOpened }
+                handleClose={ handleCloseModal }
             />
         </>
     );

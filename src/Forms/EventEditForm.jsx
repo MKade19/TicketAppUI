@@ -97,7 +97,8 @@ const EventEditForm = ({ eventId, handleClose, fetchData }) => {
                     start, 
                     end, 
                     price, 
-                    administrator: user().id 
+                    administrator: user().id,
+                    hall: activeHall.id
                 });
                 DialogMessages.successMessage("Event has been updated");
             }
@@ -108,7 +109,8 @@ const EventEditForm = ({ eventId, handleClose, fetchData }) => {
                     start, 
                     end, 
                     price, 
-                    administrator: user().id 
+                    administrator: user().id,
+                    hall: activeHall.id
                 });
                 DialogMessages.successMessage("Event has been created");
             }
@@ -145,17 +147,18 @@ const EventEditForm = ({ eventId, handleClose, fetchData }) => {
                         <label className="mx-3" htmlFor="priceInput">Price</label>
                         <input type="number" className="form-control" required id="priceInput" value={price} onChange={changePrice}/>
                     </div>
-                    <div className="flex-row align-items-center my-3">
-                        <label className="mx-3" htmlFor="stadiumSelect">Stadium</label>
-                        <select className="form-select" 
-                            id="stadiumSelect"
-                            value={ activeStadium.name } 
-                            onChange={changeActiveStadium} 
-                            placeholder="Choose stadium">
-                            {addStadiumsOptions()}
-                        </select>
-                    </div>{ activeStadium.id ? 
-                        <div className="flex-row align-items-center my-3">
+                    { !eventId ?
+                        <><div className="flex-row align-items-center my-3">
+                            <label className="mx-3" htmlFor="stadiumSelect">Stadium</label>
+                            <select className="form-select" 
+                                id="stadiumSelect"
+                                value={ activeStadium.name } 
+                                onChange={changeActiveStadium} 
+                                placeholder="Choose stadium">
+                                {addStadiumsOptions()}
+                            </select>
+                        </div>
+                        { activeStadium.id ? <div className="flex-row align-items-center my-3">
                             <label className="mx-3" htmlFor="hallSelect">Hall</label>
                             <select className="form-select" 
                                 id="hallSelect"
@@ -165,7 +168,8 @@ const EventEditForm = ({ eventId, handleClose, fetchData }) => {
                                 {addHallsOptions()}
                             </select>
                         </div>
-                        : null}  
+                        : null}</>
+                    : null }
                     <div className="d-flex justify-content-end">
                         <button type="submit" className="btn btn-primary mt-4">Submit</button>
                     </div>

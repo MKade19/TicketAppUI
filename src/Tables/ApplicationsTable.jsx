@@ -54,6 +54,13 @@ const ApplicationsTable = ({ handleOpenForm, applications, fetchData }) => {
         return (
             <tr key={application.id}>
                 <td>{application.status}</td>
+                <td>{application.created_date.split('T')[0]}</td>
+                { user().role.permission_application === 'readonly' ? 
+                <td>{ application.event.name }</td>
+                 : null }
+                { user().role.permission_application === 'readonly' ? 
+                <td>{ application.seats[0].hall.name }</td>
+                 : null }
                 <td>
                     <button className='btn btn-outline-primary' onClick={ e => { handleOpenForm(application.id, e) } }>
                         { user().role.permission_application === 'editable' ? 
@@ -61,7 +68,6 @@ const ApplicationsTable = ({ handleOpenForm, applications, fetchData }) => {
                             <i className="bi bi-chevron-expand"></i> }
                     </button> 
                 </td>
-                
                 { user().role.permission_application_status === 'editable' ? 
                 <td>
                     <button className='btn btn-outline-success' onClick={ e => { approveHandler(application.id, e) } }>
@@ -93,6 +99,13 @@ const ApplicationsTable = ({ handleOpenForm, applications, fetchData }) => {
                 <thead>
                     <tr>
                         <th>Status</th>
+                        <th>Created date</th>
+                        { user().role.permission_application === 'readonly' ? 
+                        <th>Event</th>
+                        : null }
+                        { user().role.permission_application === 'readonly' ? 
+                        <th>Hall</th>
+                        : null }
                         <th>
                             { user().role.permission_application === 'editable' ? 'Edit' : 'View seats' }
                         </th>

@@ -90,7 +90,7 @@ const ApplicationEditForm = ({ applicationId, eventId, handleClose, fetchData })
                     : null }
                 </div>
             </form>
-            <SeatsSelectionModal hallId={ event ? event.hall : false }
+            <SeatsSelectionModal hallId={ event.hall ? event.hall.id : null}
                 handleClose={ handleCloseSeatSelection }
                 showModal={ selectionFormOpened }
                 submitSelection={ submitSelection }

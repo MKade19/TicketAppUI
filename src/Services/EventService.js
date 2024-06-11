@@ -13,6 +13,10 @@ class EventService {
         return await axios.get(`events/admin/?id=${adminId}`);
     }
 
+    getRecentByCity = async city => {
+        return await axios.get(`events/recent_by_city/?city=${city}`);
+    }
+
     createOne = async ({ name, date, start, end, price, hall, administrator }) => {
         const body = { name, date, start, end, price, hall, administrator };
         return await axios.post('events/', body);

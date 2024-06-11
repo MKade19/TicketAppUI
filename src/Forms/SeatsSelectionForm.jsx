@@ -1,12 +1,9 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import SeatService from "../Services/SeatService";
-import AuthContext from '../Context/AuthContext';
 
 const SeatsSelectionForm = ({ hallId, handleClose, submitSelection, initialSeats }) => {
     const [seats, setSeats] = useState([]);
     const [selectedSeats, setSelectedSeats] = useState([]);
-
-    const { user } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -29,7 +26,6 @@ const SeatsSelectionForm = ({ hallId, handleClose, submitSelection, initialSeats
             return <div key={ el.id } className="flex-row align-items-center my-3">
                 <label className="form-check-label mx-3" htmlFor={ el.id }>{ el.number }</label>
                 <input title={ makeTitle(el) } 
-                    disabled={ user().role.permission_application !== 'editable' }
                     checked={ selectedSeats.map(seat => seat.id).includes(el.id) }
                     id={ el.id }
                     className="form-check-input" 
@@ -62,11 +58,9 @@ const SeatsSelectionForm = ({ hallId, handleClose, submitSelection, initialSeats
             <form onSubmit={handleSubmit}>
                 <div className="d-flex flex-column align-items-center form-group">
                     { makeSelection() }
-                    { user().role.permission_application === 'editable' ?
                     <button type="submit" className="btn btn-primary mt-3">
                         Submit
                     </button>
-                    : null}
                 </div>
             </form>
         </div>
