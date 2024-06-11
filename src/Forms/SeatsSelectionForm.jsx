@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import SeatService from "../Services/SeatService";
 
 const SeatsSelectionForm = ({ hallId, handleClose, submitSelection, initialSeats }) => {
@@ -7,14 +7,14 @@ const SeatsSelectionForm = ({ hallId, handleClose, submitSelection, initialSeats
 
     useEffect(() => {
         const fetchData = async () => {
-            if (hallId) {
-                const seatsResponse = await SeatService.getByHall(hallId);
-                setSeats(seatsResponse.data);
-            }
+            const seatsResponse = await SeatService.getByHall(hallId);
+            setSeats(seatsResponse.data);
         } 
 
-        fetchData().catch(console.error);
-        setSelectedSeats([...initialSeats, ...selectedSeats]);
+        if (hallId) {
+            fetchData().catch(console.error);
+            setSelectedSeats([...initialSeats, ...selectedSeats]);
+        }
     }, [hallId]);
 
     const makeTitle = seat => {

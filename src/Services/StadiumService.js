@@ -13,6 +13,10 @@ class StadiumService {
         return await axios.get(`stadiums/admin/?id=${adminId}`);
     }
 
+    getApplicationsByStadiumAdmin = async adminId => {
+        return await axios.get(`stadiums/admin_applications/?adminId=${adminId}`);
+    }
+
     createOne = async ({ name, image, description, city, administrator }) => {
         const body = { name, image, description, city, administrator };
         return await axios.post('stadiums/', body);

@@ -10,7 +10,7 @@ const SeatsSelectionModal = ({ hallId, showModal, handleClose, submitSelection, 
             keyboard={false}
             centered>
             <Modal.Header>
-                <Modal.Title>Select seats</Modal.Title>
+                <Modal.Title>Seats selection</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <SeatsSelectionForm hallId={ hallId } 

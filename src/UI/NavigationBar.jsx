@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import { NavLink, Nav, Navbar, Container } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import AuthContext from '../Context/AuthContext'
+import { Link } from 'react-router-dom'
 
 const NavigationBar = () => {
     const { logoutUser, user } = useContext(AuthContext);
@@ -16,10 +17,10 @@ const NavigationBar = () => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse>
                     <Nav className="me-auto">
-                        <LinkContainer to={"/"}>
+                        <LinkContainer to="/">
                             <NavLink>Home</NavLink>
                         </LinkContainer>
-                        <LinkContainer to={"/profile"}>
+                        <LinkContainer to="/profile">
                             <NavLink>Profile</NavLink>
                         </LinkContainer>
                     </Nav>

@@ -12,15 +12,21 @@ class ApplicationService {
     getByEvent = async eventId => {
         return await axios.get(`applications/event/?id=${eventId}`);
     }
+    
 
-    createOne = async ({ date, start, end, event, seats }) => {
-        const body = { date, start, end, event, seats };
+    createOne = async ({ event, seats }) => {
+        const body = { event, seats };
         return await axios.post('applications/', body);
     }
 
-    updateOne = async ({ id, date, start, end, event, seats }) => {
-        const body = { date, start, end, event, seats };
+    updateOne = async ({ id, event, seats }) => {
+        const body = { event, seats };
         return await axios.put(`applications/${id}/`, body);
+    }
+
+    changeStatus = async ({ id, status }) => {
+        const body = { status };
+        return await axios.patch(`applications/${id}/`, body);
     }
 
     deleteById = async id => {

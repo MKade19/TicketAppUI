@@ -13,13 +13,17 @@ class EventService {
         return await axios.get(`events/admin/?id=${adminId}`);
     }
 
-    createOne = async ({ name, date, start, end, price, administrator }) => {
-        const body = { name, date, start, end, price, administrator };
+    getRecentByCity = async city => {
+        return await axios.get(`events/recent_by_city/?city=${city}`);
+    }
+
+    createOne = async ({ name, date, start, end, price, hall, administrator }) => {
+        const body = { name, date, start, end, price, hall, administrator };
         return await axios.post('events/', body);
     }
 
-    updateOne = async ({ id, name, date, start, end, price, administrator }) => {
-        const body = { name, date, start, end, price, administrator }
+    updateOne = async ({ id, name, date, start, end, price, hall, administrator }) => {
+        const body = { name, date, start, end, price, hall, administrator }
         return await axios.put(`events/${id}/`, body);
     }
 

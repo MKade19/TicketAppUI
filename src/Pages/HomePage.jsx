@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import CityService from "../Services/CityService";
+import EventService from "../Services/EventService";
+import EventsPoster from "../UI/EventsPoster";
 
 const HomePage = () => {
     const [cities, setCities] = useState([]);
-    const [activeCity, setActiveCity] = useState({});
+    const [activeCity, setActiveCity] = useState(null);
+    const [events, setEvents] = useState([]);
 
     const changeActiveCity = event => {
         setActiveCity(cities.filter(e => e.name === event.target.value)[0]);
@@ -17,6 +20,15 @@ const HomePage = () => {
 
         fetchData();
     }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const eventResponse = await EventService.getRecentByCity(activeCity ? activeCity.name : '');
+            setEvents(eventResponse.data);
+        }
+
+        fetchData();
+    }, [activeCity]);
 
     const addRolesOptions = () => {
         return cities.map(e => <option key={e.id}>{e.name}</option>);
@@ -38,6 +50,7 @@ const HomePage = () => {
                     </select>
                 </div>
             </div>
+            <EventsPoster events={ events }/>
         </>
     );
 }
