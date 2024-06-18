@@ -10,6 +10,32 @@ class AuthService {
         }
     }
 
+    loginGoogle = async (access_token) => {
+        try {
+            const body = { access_token:  access_token};
+            return await axios.post('http://localhost:8000/ticket-app/api/auth/google/', body);
+        } catch (error) {
+            return error.response;
+        }
+    }
+
+    getGoogleUserInfo = async (access_token) => {
+        try {
+            return await axios.get(`http://localhost:8000/ticket-app/api/auth/google/?access_token=${access_token}`);
+        } catch (error) {
+            return error.response;
+        }
+    }
+
+    signupGoogle = async ({ email, role }) => {
+        try {
+            const body = { email, role};
+            return await axios.post('http://localhost:8000/ticket-app/api/auth/google-signup/', body);
+        } catch (error) {
+            return error.response;
+        }
+    }    
+
     register = async ({ email, fullname, password, confirmPassword, role }) => {
         try {
             const body = { email, fullname, password, confirmPassword, role };
