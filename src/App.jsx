@@ -11,6 +11,7 @@ import ChangePasswordPage from './Pages/ChangePasswordPage';
 import SignUpPage from './Pages/SignUpPage';
 import SignUpGooglePage from './Pages/SignUpGooglePage';
 import ProfilePage from './Pages/ProfilePage';
+import ChatWidget from './Forms/ChatWidget';
 
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
                     <Route index element={ <Navigate to={'/auth/sign-in'}/> }/>
                 </Route>
             </Routes>
+            { user() ? <ChatWidget /> : null }
         </div>
     );
 }
