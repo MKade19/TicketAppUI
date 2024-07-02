@@ -2,6 +2,7 @@
 
 .App {
   text-align: center;
+  height: 100vh;
 }
 
 .App-logo {
@@ -43,4 +44,17 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+li {
+  text-align: left;
+}
+
+li.only-top-borders {
+  border-left: none;
+  border-right: none;
+}
+
+.list-group {
+  border-radius: 0;
 }
