@@ -9,6 +9,7 @@ import AuthLayout from './Layout/AuthLayout';
 import SignInPage from './Pages/SignInPage';
 import ChangePasswordPage from './Pages/ChangePasswordPage';
 import SignUpPage from './Pages/SignUpPage';
+import SignUpGooglePage from './Pages/SignUpGooglePage';
 import ProfilePage from './Pages/ProfilePage';
 
 
@@ -25,6 +26,7 @@ const App = () => {
                 <Route path='auth' element={ <AuthLayout/> }>
                     <Route path='sign-in' element={ <SignInPage/> }/>
                     <Route path='sign-up' element={ <SignUpPage/> }/>
+                    <Route path='sign-up-google' element={ <SignUpGooglePage/> }/>
                     <Route path="change-password" element={ <ChangePasswordPage/> }/>
                     <Route index element={ <Navigate to={'/auth/sign-in'}/> }/>
                 </Route>
