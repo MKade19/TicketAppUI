@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 const EventsPoster = ({ events }) => {
+    const navigate = useNavigate();
+
     const createElement = (event, eventNumber) => {
         const isEventFirst = eventNumber === 0;
 
@@ -8,7 +12,12 @@ const EventsPoster = ({ events }) => {
                 <h5>{event.name}</h5>
                 <p>Description placeholder</p>
                 <p>Event date: {event.date}</p>
-                <button type='button' className='btn btn-primary'>View full info</button>
+                <button type='button' 
+                    className='btn btn-primary'
+                    onClick={ e => viewEventInfo(event.id, e) }
+                >
+                    View full info
+                </button>
             </div>
         </div>
     }
@@ -31,6 +40,10 @@ const EventsPoster = ({ events }) => {
 
     const addButtons = () => {
         return events.map(e => createButton(events.indexOf(e))); 
+    }
+
+    const viewEventInfo = (id, event) => {
+        navigate(`/event/${id}`);
     }
 
     return (
