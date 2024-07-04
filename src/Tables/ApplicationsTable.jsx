@@ -10,9 +10,9 @@ const ApplicationsTable = ({ handleOpenForm, applications, fetchData }) => {
     const deleteHandler = async (id, event) => {
         DialogMessages.confirmMessage('Are you sure, to delete the application?')
         .then(async (result) => {
-            if (result.isConfirmed) {
-                DialogMessages.successMessage("Application has been deleted");
+            if (result.isConfirmed) { 
                 await ApplicationService.deleteById(id);
+                DialogMessages.successMessage("Application has been deleted");
                 await fetchData();
             } else if (result.isDenied) {
                 return;
@@ -23,13 +23,18 @@ const ApplicationsTable = ({ handleOpenForm, applications, fetchData }) => {
     const approveHandler = async (id, event) => {
         DialogMessages.confirmMessage('Are you sure, to approve the application?')
         .then(async (result) => {
-            if (result.isConfirmed) {
-                DialogMessages.successMessage("Application has been approved");
-                await ApplicationService.changeStatus({ id, status: 'approved'});
-                await fetchData();
-            } else if (result.isDenied) {
-                return;
+            try {
+                if (result.isConfirmed) {
+                    await ApplicationService.changeStatus({ id, status: 'approved'});
+                    DialogMessages.successMessage("Application has been approved");
+                    await fetchData();
+                } else if (result.isDenied) {
+                    return;
+                }
+            } catch (error) {
+                DialogMessages.errorMessage(error.response.data.error);
             }
+            
         })
     }
 
@@ -37,8 +42,8 @@ const ApplicationsTable = ({ handleOpenForm, applications, fetchData }) => {
         DialogMessages.confirmMessage('Are you sure, to deny the application?')
         .then(async (result) => {
             if (result.isConfirmed) {
-                DialogMessages.successMessage("Application has been denied");
                 await ApplicationService.changeStatus({ id, status: 'denied'});
+                DialogMessages.successMessage("Application has been denied");
                 await fetchData();
             } else if (result.isDenied) {
                 return;

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import EventService from '../Services/EventService';
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -10,21 +10,27 @@ const EventPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             const eventResponse = await EventService.getById(params.id);
+
+            console.log(eventResponse);
+
             setCurrentEvent(eventResponse.data);
         }
 
-        if (params.id) {
-            fetchData().catch(console.error);
-        }
-        else{
+        fetchData().catch(error => {
             navigate('/');
-        }
+        });
     }, []);
+
+
 
     return (
         <div className="d-flex justify-content-around align-items-center mt-3">
-            <div>
+            <div className="d-flex flex-column">
                 image container
+                <button className="btn btn-primary mt-5">
+                    <i className="bi bi-cart"> </i> 
+                    Buy ticket
+                </button>
             </div>
             <div className="mt-3">
                 <h2>{ currentEvent.name }</h2>
@@ -49,6 +55,7 @@ const EventPage = () => {
                     </li>
                 </ul>
             </div>
+            
         </div>
     )
 }   

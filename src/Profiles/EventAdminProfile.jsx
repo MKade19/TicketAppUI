@@ -50,12 +50,14 @@ const EventAdminProfile = () => {
                     </button>
                 </div> 
             </h4>
-            <EventsTable 
-                events={ events }
-                handleOpenForm={ handleOpenForm } 
-                fetchData={ fetchData }
-                handleOpenApplicationsView={ handleOpenApplicationsView }
-            />
+            { events.length === 0 ? <h4>You have not create any events yet. <br/>Click "Create new" button to create the first one.</h4> :
+              <EventsTable events={ events }
+                  handleOpenForm={ handleOpenForm } 
+                  fetchData={ fetchData }
+                  handleOpenApplicationsView={ handleOpenApplicationsView }
+              />
+            }
+            
             <EventEditModal 
                 eventId={ eventId }
                 showModal={ editFormOpened } 

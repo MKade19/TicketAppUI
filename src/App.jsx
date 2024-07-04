@@ -23,7 +23,7 @@ const App = () => {
                 <Route path='/' element={ user() ? <Layout/> : <Navigate to={'/auth/sign-in'}/> }>
                     <Route index element={ <HomePage/> }/>
                     <Route path='profile' element={ <ProfilePage/> }/>
-                    <Route path='event/:id' element={ <EventPage/> }/>
+                    <Route path='events/:id' element={ <EventPage/> }/>
                 </Route>
                 <Route path='auth' element={ <AuthLayout/> }>
                     <Route path='sign-in' element={ <SignInPage/> }/>

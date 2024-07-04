@@ -31,11 +31,13 @@ const StadiumAdminProfile = () => {
 
     return (
         <>
-            <h3 className="mb-4">Applications</h3>
-            <ApplicationsTable fetchData={ fetchData }
-                applications={ applications }
-                handleOpenForm={ handleOpenModal }
-            />
+            <h3 className="mb-4">Applications</h3>            
+            { applications.length === 0 ? <h4>You do not have any applicatons to approve or deny.</h4> :
+              <ApplicationsTable fetchData={ fetchData }
+                  applications={ applications }
+                  handleOpenForm={ handleOpenModal }
+              />
+            }
             <SeatsViewModal
                 applicationId={ applicationId }
                 showModal={ seatsViewOpened }

@@ -43,7 +43,7 @@ const EventsPoster = ({ events }) => {
     }
 
     const viewEventInfo = (id, event) => {
-        navigate(`/event/${id}`);
+        navigate(`/events/${id}`);
     }
 
     return (

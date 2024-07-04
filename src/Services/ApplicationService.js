@@ -12,7 +12,6 @@ class ApplicationService {
     getByEvent = async eventId => {
         return await axios.get(`applications/event/?id=${eventId}`);
     }
-    
 
     createOne = async ({ event, seats }) => {
         const body = { event, seats };
