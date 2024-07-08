@@ -1,8 +1,4 @@
 import Table from 'react-bootstrap/Table';
-import ApplicationService from '../Services/ApplicationService';
-import DialogMessages from '../Util/DialogMessages';
-import { useContext } from 'react';
-import AuthContext from '../Context/AuthContext';
 
 const ApplicationSeatsTable = ({ seats }) => {
     const addRows = () => {

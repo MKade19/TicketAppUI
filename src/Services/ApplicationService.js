@@ -13,6 +13,10 @@ class ApplicationService {
         return await axios.get(`applications/event/?id=${eventId}`);
     }
 
+    getApprovedByEvent = async eventId => {
+        return await axios.get(`applications/approved_event/?id=${eventId}`);
+    }
+
     createOne = async ({ event, seats }) => {
         const body = { event, seats };
         return await axios.post('applications/', body);
