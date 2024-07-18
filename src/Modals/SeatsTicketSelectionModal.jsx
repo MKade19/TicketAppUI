@@ -22,6 +22,11 @@ const SeatsTicketSelectionModal = ({ eventId, showModal, handleClose }) => {
     }, [eventId]);
 
     const handleSubmit = selectedSeats => {
+        if (selectedSeats.length === 0) {
+            DialogMesages.errorMessage("Select one or many seats to add!");
+            return;
+        }
+
         selectedSeats.forEach(async seat => {
             await TicketService.createOne({
                 application: application.id, 

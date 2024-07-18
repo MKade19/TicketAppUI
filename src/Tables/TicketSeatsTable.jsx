@@ -1,25 +1,44 @@
 import Table from 'react-bootstrap/Table';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import TicketService from '../Services/TicketService';
 
 const TicketSeatsTable = ({ application, handleSubmit }) => {
     const [selectedSeats, setSelectedSeats] = useState([]);
+    const [tickets, setTickets] = useState([]);
+
+    useEffect(() => {
+        const fetchTickets = async () => { 
+            const ticketsResponse = await TicketService.getByApplication(application.id);
+            setTickets(ticketsResponse.data);
+        }
+
+        fetchTickets().catch(console.error);
+    }, [application]);
 
     const addRows = () => {
         return application.seats.map(e => createRow(e));
     }
  
     const createRow = seat => {
+        let ticket, ticketStatus = 'unoccupied';
+        ticket = tickets.find(el => el.seat.id === seat.id);
+        
+        if (ticket) {
+            ticketStatus = ticket.is_sold ? 'sold' : 'occupied';
+        }
+
         return (
-            <tr key={seat.id}>
-                <td>{seat.number}</td> 
-                <td>{seat.row}</td> 
-                <td>{seat.sector}</td> 
-                <td></td>
+            <tr key={ seat.id }>
+                <td>{ seat.number }</td> 
+                <td>{ seat.row }</td> 
+                <td>{ seat.sector }</td> 
+                <td>{ ticketStatus }</td>
                 <td>
                     <input id={ seat.id }
                         className="form-check-input" 
                         onChange={ handleSeatChange }
                         type="checkbox" 
+                        disabled={ ticketStatus !== 'unoccupied' }
                     />
                 </td>
             </tr>
@@ -59,7 +78,7 @@ const TicketSeatsTable = ({ application, handleSubmit }) => {
                     className="btn btn-primary w-2" 
                     onClick={ e => handleSubmit(selectedSeats) }
                 >
-                    Add to cart
+                    <i className="bi bi-cart-plus"> </i>Add to cart
                 </button>
             </div>
         </div>
