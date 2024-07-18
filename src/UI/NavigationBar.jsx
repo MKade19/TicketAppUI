@@ -2,7 +2,6 @@ import { useContext } from 'react'
 import { NavLink, Nav, Navbar, Container } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import AuthContext from '../Context/AuthContext'
-import { Link } from 'react-router-dom'
 
 const NavigationBar = () => {
     const { logoutUser, user } = useContext(AuthContext);
@@ -22,6 +21,9 @@ const NavigationBar = () => {
                         </LinkContainer>
                         <LinkContainer to="/profile">
                             <NavLink>Profile</NavLink>
+                        </LinkContainer>
+                        <LinkContainer to="/cart">
+                            <NavLink><i className="bi bi-cart"> </i>Cart</NavLink>
                         </LinkContainer>
                     </Nav>
                     <Navbar>{!user() ? '' : user().fullname + ' - ' + (!user().role ? '' : user().role.name)}&nbsp;&nbsp;&nbsp;

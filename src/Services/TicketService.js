@@ -6,8 +6,12 @@ class TicketService {
         return await axios.post('tickets/', body);
     }
 
-    getByApplication = async (apppicationId) => {
+    getByApplication = async apppicationId => {
         return await axios.get(`tickets/application/?id=${apppicationId}`);
+    }
+
+    getForCustomerByStatus = async (customerId, status) => {
+        return await axios.get(`tickets/customer/?id=${customerId}&status=${status ? 'True' : 'False'}`);
     }
 }
 

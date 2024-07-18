@@ -12,6 +12,7 @@ import SignUpPage from './Pages/SignUpPage';
 import SignUpGooglePage from './Pages/SignUpGooglePage';
 import ProfilePage from './Pages/ProfilePage';
 import EventPage from './Pages/EventPage';
+import CartPage from './Pages/CartPage';
 
 
 const App = () => {
@@ -24,6 +25,8 @@ const App = () => {
                     <Route index element={ <HomePage/> }/>
                     <Route path='profile' element={ <ProfilePage/> }/>
                     <Route path='events/:id' element={ <EventPage/> }/>
+                    <Route path='cart' element={ <CartPage/> }/>
+                    <Route path='*' element={ <HomePage/> }/>
                 </Route>
                 <Route path='auth' element={ <AuthLayout/> }>
                     <Route path='sign-in' element={ <SignInPage/> }/>
