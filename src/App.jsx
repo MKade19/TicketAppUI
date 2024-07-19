@@ -26,7 +26,7 @@ const App = () => {
                     <Route path='profile' element={ <ProfilePage/> }/>
                     <Route path='events/:id' element={ <EventPage/> }/>
                     <Route path='cart' element={ <CartPage/> }/>
-                    <Route path='*' element={ <HomePage/> }/>
+                    <Route path='*' element={ <Navigate to={'/'}/> }/>
                 </Route>
                 <Route path='auth' element={ <AuthLayout/> }>
                     <Route path='sign-in' element={ <SignInPage/> }/>
