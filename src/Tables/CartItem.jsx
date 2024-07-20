@@ -25,18 +25,16 @@ const CartItem = ({ ticket, fetchData }) => {
     }
 
     const makeExpiringTime = () => {
-        const expiringDate = Util.addMinutes(new Date(ticket.created_date), 20);
-        const currentDate = new Date();
-        const dateDiff = expiringDate - currentDate;
+        const timeToExpire = Util.getTimeToExpire(ticket.created_date, 20);
 
-        if (dateDiff <= 0) {
+        if (timeToExpire <= 0) {
             TicketService.deleteById(ticket.id).catch(console.error);
             fetchData();
             return null;
         }
 
-        const minutes = new Date(dateDiff).getMinutes();
-        const seconds = new Date(dateDiff).getSeconds();
+        const minutes = new Date(timeToExpire).getMinutes();
+        const seconds = new Date(timeToExpire).getSeconds();
 
         return `${minutes} min ${seconds} sec`;
     }

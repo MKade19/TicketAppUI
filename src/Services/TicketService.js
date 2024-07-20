@@ -17,6 +17,11 @@ class TicketService {
     deleteById = async id => {
         return await axios.delete(`tickets/${id}/`);
     }
+
+    updateStatus = async (id, status) => {
+        const body = { is_sold: status ? 'True' : 'False' }
+        return await axios.patch(`tickets/${id}/`, body);
+    }
 }
 
 const ticketService = new TicketService();

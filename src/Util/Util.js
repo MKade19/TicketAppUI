@@ -3,8 +3,10 @@ class Util {
         return new Date(date.getTime() + minutes * 60000);
     }
 
-    static formatMinutesSecondsString(date) {
-        return `${date.getMinutes()}:${date.getSeconds()}`;
+    static getTimeToExpire(date, maxLifeSpan) {
+        const expiringDate = Util.addMinutes(new Date(date), maxLifeSpan);
+        const currentDate = new Date();
+        return expiringDate - currentDate;
     }
 }
 
