@@ -5,7 +5,7 @@ import DialogMessages from '../Util/DialogMessages';
 const EventsTable = ({ handleOpenForm, handleOpenApplicationsView, events, fetchData }) => {
     const deleteHandler = async (id, event) => {
         DialogMessages.confirmMessage('Are you sure, to delete the event?')
-        .then(async (result) => {
+        .then(async result => {
             if (result.isConfirmed) {
                 DialogMessages.successMessage("Event has been deleted");
                 await EventService.deleteById(id);
