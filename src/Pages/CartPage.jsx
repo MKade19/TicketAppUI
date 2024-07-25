@@ -10,7 +10,6 @@ const CartPage = () => {
 
     const fetchData = async () => {
         const ticketsResponse = await TicketService.getForCustomerByStatus(user().id, false);
-        console.log(ticketsResponse.data);
         setTickets(ticketsResponse.data);
     }
 

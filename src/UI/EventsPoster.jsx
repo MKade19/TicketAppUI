@@ -5,10 +5,11 @@ const EventsPoster = ({ events }) => {
 
     const createElement = (event, eventNumber) => {
         const isEventFirst = eventNumber === 0;
+        const imageUrl = event.images.length === 0 ? 'media/images/placeholder-image.png' : event.images[0].image_url;
 
-        return <div key={ event.id } className={'carousel-item img-fluid' + (isEventFirst ? ' active' : '')}>
-            <img src="..." className="d-block w-100" alt="..."/>
-            <div className="item d-none d-md-block">
+        return <div key={ event.id } className={'carousel-item' + (isEventFirst ? ' active' : '')}>
+            <img src={`http://127.0.0.1:8000/${imageUrl}`} style={{ marginLeft: '2vw', width: '90vw', height: '60vh' }} className="d-block" alt="..."/>
+            <div className="item d-none d-md-block mt-3">
                 <h5>{event.name}</h5>
                 <p>Description placeholder</p>
                 <p>Event date: {event.date}</p>
@@ -47,7 +48,7 @@ const EventsPoster = ({ events }) => {
     }
 
     return (
-        <div id="carouselCaptions" className="carousel slide pb-5" data-bs-ride="carousel">
+        <div id="carouselCaptions" className="carousel slide pb-5 px-5" data-bs-ride="carousel">
             <div className="carousel-indicators">
                 { addButtons() }
             </div>

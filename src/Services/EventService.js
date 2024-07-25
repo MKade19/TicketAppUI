@@ -18,6 +18,8 @@ class EventService {
     }
 
     createOne = async ({ name, date, start, end, price, hall, administrator, images }) => {
+        let imageIds = [];
+
         if (images.length !== 0) {
             for (let i = 0; i < images.length; i++) {
                 let formData = new FormData();
@@ -29,11 +31,11 @@ class EventService {
                     },
                 });
 
-                console.log(imageResponse);
+                imageIds.push(imageResponse.data.id);
             } 
         }
 
-        const body = { name, date, start, end, price, hall, administrator };
+        const body = { name, date, start, end, price, hall, administrator, images: imageIds };
         return await axios.post('events/', body);
     }
 
