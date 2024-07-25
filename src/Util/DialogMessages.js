@@ -25,6 +25,18 @@ class DialogMessages {
         });
     }
 
+    warningMessage = message => {
+        Swal.fire({
+            title: message,
+            icon: "warning",
+            toast: true,
+            timer: 3000,
+            position: 'top-right',
+            timerProgressBar: true,
+            showConfirmButton: false,
+        });
+    }
+
     confirmMessage = message => {
         return Swal.fire({
             title: "Please confirm",

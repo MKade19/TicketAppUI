@@ -3,10 +3,32 @@ import { useNavigate } from "react-router-dom";
 import Util from '../Util/Util';
 import TicketService from '../Services/TicketService';
 import DialogMessages from '../Util/DialogMessages';
+import { useEffect, useState } from 'react';
 
 
 const CartItem = ({ ticket, fetchData }) => {
     const navigate = useNavigate();
+    const [timeToExpire, setTimeToExpire] = useState('');
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            const timeToExpire = Util.getTimeToExpire(ticket.created_date, 20);
+
+            if (timeToExpire <= 0) {
+                TicketService.deleteById(ticket.id).catch(console.error);
+                fetchData();
+                DialogMessages.warningMessage('One of your tickets has expired and has been removed.');
+                return null;
+            }
+
+            const minutes = new Date(timeToExpire).getMinutes();
+            const seconds = new Date(timeToExpire).getSeconds();
+
+            setTimeToExpire(`${minutes} min ${seconds} sec`);
+        }, 1000);
+
+        return () => clearInterval(intervalId);
+    }, []);
 
     const removeTicket = async () => {
         DialogMessages.confirmMessage('Do you want to remove this ticket?').then(async result => {
@@ -24,21 +46,6 @@ const CartItem = ({ ticket, fetchData }) => {
         navigate(`/events/${ticket.application.event.id}`);
     }
 
-    const makeExpiringTime = () => {
-        const timeToExpire = Util.getTimeToExpire(ticket.created_date, 20);
-
-        if (timeToExpire <= 0) {
-            TicketService.deleteById(ticket.id).catch(console.error);
-            fetchData();
-            return null;
-        }
-
-        const minutes = new Date(timeToExpire).getMinutes();
-        const seconds = new Date(timeToExpire).getSeconds();
-
-        return `${minutes} min ${seconds} sec`;
-    }
-
     return (
         <Card className='mx-3 my-3'>
             <Card.Body>
@@ -52,7 +59,7 @@ const CartItem = ({ ticket, fetchData }) => {
                     <div>Start: { ticket.application.event.start }</div>
                     <div>End: { ticket.application.event.end }</div>
                     <div>Price: { ticket.application.event.price }</div>
-                    <div>Time to expire: { makeExpiringTime() }</div>
+                    <div>Time to expire: { timeToExpire }</div>
                 </div>
                 <div className='mt-3 d-flex justify-content-around'>
                     <button className='btn btn-outline-primary mx-3' onClick={ goToEvent }>
