@@ -17,7 +17,22 @@ class EventService {
         return await axios.get(`events/recent_by_city/?city=${city}`);
     }
 
-    createOne = async ({ name, date, start, end, price, hall, administrator }) => {
+    createOne = async ({ name, date, start, end, price, hall, administrator, images }) => {
+        if (images.length !== 0) {
+            for (let i = 0; i < images.length; i++) {
+                let formData = new FormData();
+                formData.append("image_url", images[i], images[i].name);
+
+                const imageResponse = await axios.post('images/', formData, { 
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+
+                console.log(imageResponse);
+            } 
+        }
+
         const body = { name, date, start, end, price, hall, administrator };
         return await axios.post('events/', body);
     }

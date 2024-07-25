@@ -16,6 +16,7 @@ const EventEditForm = ({ eventId, handleClose, fetchData }) => {
     const [halls, setHalls] = useState([]);
     const [activeHall, setActiveHall] = useState({});
     const { user } = useContext(AuthContext);
+    const [images, setImages] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -76,6 +77,10 @@ const EventEditForm = ({ eventId, handleClose, fetchData }) => {
         setActiveHall(halls.filter(e => e.name === event.target.value)[0]);
     }
 
+    const changeImages = event => {
+        setImages(event.target.files);
+    }
+
     const addStadiumsOptions = () => {
         return stadiums.map(e => <option key={e.id}>{e.name}</option>);
     }
@@ -110,7 +115,8 @@ const EventEditForm = ({ eventId, handleClose, fetchData }) => {
                     end, 
                     price, 
                     administrator: user().id,
-                    hall: activeHall.id
+                    hall: activeHall.id,
+                    images: images
                 });
                 DialogMessages.successMessage("Event has been created");
             }
@@ -170,6 +176,16 @@ const EventEditForm = ({ eventId, handleClose, fetchData }) => {
                         </div>
                         : null}</>
                     : null }
+                    <div className="flex-row align-items-center my-3">
+                        <label className="mx-3" htmlFor="imagesInput">Images</label>
+                        <input type="file" 
+                            multiple 
+                            className="form-control" 
+                            name="images" 
+                            id="imagesInput"
+                            onChange={ e => changeImages(e) }
+                        />
+                    </div>
                     <div className="d-flex justify-content-end">
                         <button type="submit" className="btn btn-primary mt-4">Submit</button>
                     </div>
