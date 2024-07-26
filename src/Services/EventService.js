@@ -39,8 +39,25 @@ class EventService {
         return await axios.post('events/', body);
     }
 
-    updateOne = async ({ id, name, date, start, end, price, hall, administrator }) => {
-        const body = { name, date, start, end, price, hall, administrator }
+    updateOne = async ({ id, name, date, start, end, price, hall, administrator, images }) => {
+        let imageIds = [];
+
+        if (images.length !== 0) {
+            for (let i = 0; i < images.length; i++) {
+                let formData = new FormData();
+                formData.append("image_url", images[i], images[i].name);
+
+                const imageResponse = await axios.post('images/', formData, { 
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+
+                imageIds.push(imageResponse.data.id);
+            } 
+        }
+
+        const body = { name, date, start, end, price, hall, administrator, images: imageIds }
         return await axios.put(`events/${id}/`, body);
     }
 

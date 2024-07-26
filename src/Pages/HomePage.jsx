@@ -24,7 +24,6 @@ const HomePage = () => {
     useEffect(() => {
         const fetchData = async () => {
             const eventResponse = await EventService.getRecentByCity(activeCity ? activeCity.name : '');
-            console.log(eventResponse.data);
             setEvents(eventResponse.data);
         }
 

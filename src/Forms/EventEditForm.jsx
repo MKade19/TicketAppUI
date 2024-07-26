@@ -103,7 +103,8 @@ const EventEditForm = ({ eventId, handleClose, fetchData }) => {
                     end, 
                     price, 
                     administrator: user().id,
-                    hall: activeHall.id
+                    hall: activeHall.id,
+                    images: images
                 });
                 DialogMessages.successMessage("Event has been updated");
             }

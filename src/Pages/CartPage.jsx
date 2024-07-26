@@ -3,6 +3,7 @@ import AuthContext from "../Context/AuthContext";
 import TicketService from "../Services/TicketService";
 import CartItem from "../Tables/CartItem";
 import Util from "../Util/Util";
+import DialogMesages from "../Util/DialogMessages";
 
 const CartPage = () => {
     const { user } = useContext(AuthContext);
@@ -27,6 +28,7 @@ const CartPage = () => {
             await TicketService.updateStatus(ticket.id, true);
         })); 
 
+        DialogMesages.successMessage('You have purchased the tickets.');
         fetchData().catch(console.error);
     }
 
