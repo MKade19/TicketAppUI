@@ -49,6 +49,13 @@ const CartItem = ({ ticket, fetchData }) => {
     return (
         <Card className='mx-3 my-3'>
             <Card.Body>
+                <Card.Img className='mb-3' style={{ width: '17vw', height: '20vh' }} variant="top" src={ 
+                    `http://127.0.0.1:8000/${
+                        ticket.application.event.images.length === 0 ? 
+                        'media/images/placeholder-image.png' :
+                        ticket.application.event.images[0].image_url
+                    }` 
+                } />
                 <Card.Title>{ ticket.application.event.name }</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{ ticket.application.event.hall.stadium.city.name }</Card.Subtitle>
                 <Card.Subtitle className="mb-2 text-muted">{ ticket.application.event.hall.stadium.name + ' stadium' }</Card.Subtitle>
