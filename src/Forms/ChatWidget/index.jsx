@@ -41,15 +41,18 @@ function ChatWidget() {
             onMouseLeave={() => setHovered(false)}
           style={{
             ...styles.chatWidget,
-            ...{ border: hovered ? "1px solid black" : "" },
+            ...{ 
+              border: hovered ? "1px solid black" : "",
+              zIndex: 100
+            },
           }}
         >
           {/* Inner Container */}
           <div
             style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
             }}
             >
             {/* Button Icon */}

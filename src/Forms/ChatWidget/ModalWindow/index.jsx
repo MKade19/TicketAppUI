@@ -318,7 +318,8 @@ function ModalWindow(props) {
       style={{
         ...styles.modalWindow,
         ...{
-          opacity: props.visible ? "1" : "0",
+          display: props.visible ? "block" : "none",
+          zIndex: 90
         }
       }}
     >
